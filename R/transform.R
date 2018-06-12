@@ -82,7 +82,7 @@ latlong_to_index <- function(latitude, longitude) {
 #' Convert a datetime to an index in the WIND Toolkit dataset
 #' @description Given a datetime, compute the corresponding index on the WIND Toolkit dataset.
 #'
-#' @param datetime The datetime point as POSIX or string, in format YYYY-MM-DD HH:MM:SS
+#' @param datetime The datetime point as POSIX or string, in format YYYY-MM-DD HH:MM:SS.
 #'
 #' @return The index on the WIND Toolkit dataset for the datetime.
 #' @export
@@ -106,8 +106,8 @@ datetime_to_index <- function(datetime) {
 #' Convert a datetime range to the indices range in the WIND Toolkit dataset
 #' @description Given two datetime (from and to), compute the corresponding indices range on the WIND Toolkit dataset.
 #'
-#' @param datetime_from The initial datetime point of the range as POSIX or string, in format YYYY-MM-DD HH:MM:SS
-#' @param datetime_to The final datetime point of the range as POSIX or string, in format YYYY-MM-DD HH:MM:SS
+#' @param datetime_from The initial datetime point of the range as POSIX or string, in format YYYY-MM-DD HH:MM:SS.
+#' @param datetime_to The final datetime point of the range as POSIX or string, in format YYYY-MM-DD HH:MM:SS.
 #'
 #' @return A named list with elements `t_from` and `t_to` for the corresponding indices range on the WIND Toolkit dataset.
 #' @export
@@ -123,4 +123,22 @@ datetime_to_indices <- function(datetime_from, datetime_to) {
                              t_to = t_to)
 
     return(datetime_indices)
+}
+
+
+#' Compute a named list with datetime ranges and step.
+#' @description Helper function to get formatted data for use in other functions.
+#'
+#' @param datetime_from The initial datetime point of the range as string, in format YYYY-MM-DD HH:MM:SS.
+#' @param datetime_to The final datetime point of the range as string, in format YYYY-MM-DD HH:MM:SS.
+#' @param datetime_step The size of the step within the range, with 1 being each hour, 2 every other hour, etc.
+#'
+#' @return A named list with elements `datetime_from`, `datetime_to`, `datetime_step`.
+#' @export
+#'
+#' @examples
+compute_datetime_info <- function(datetime_from, datetime_to, datetime_step) {
+    list(datetime_from = datetime_from,
+         datetime_to = datetime_to,
+         datetime_step = datetime_step)
 }
