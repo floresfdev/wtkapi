@@ -1,9 +1,9 @@
 Package: wtkapi
 Version: 0.0.0.9000
-Title: What the Package Does (One Line, Title Case)
-Description: What the package does (one paragraph).
-Authors@R: person("First", "Last", , "first.last@example.com", c("aut", "cre"))
-License: What license it uses
+Title: Get data from the WIND Toolkit API
+Description: Provides a set of functions to get the data from the WIND (Wind Integration National Dataset) Toolkit in tidy format to leverage technical analysis of atmospheric data.
+Authors@R: person("Fernando", "Flores", , "ds.fernando.flores@gmail.com", c("aut", "cre"))
+License: TBD
 Encoding: UTF-8
 LazyData: true
 ByteCompile: true
