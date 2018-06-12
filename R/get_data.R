@@ -8,6 +8,11 @@
 #' @return A dataframe (tibble) containing the datasets available via the WIND Toolkit API.
 #' @export
 #'
+#' @import tibble
+#' @import dplyr
+#' @importFrom glue glue
+#' @importFrom httr GET stop_for_status
+#'
 #' @examples
 get_datasets <- function(endpoint, host, api_key) {
     datasets <- tibble()
@@ -65,6 +70,9 @@ get_datasets <- function(endpoint, host, api_key) {
 #' @return A string with the URL of the dataset. Empty if the `dataset_title` is not valid.
 #' @export
 #'
+#' @import tibble
+#' @import dplyr
+#'
 #' @examples
 get_dataset_url <- function(datasets, dataset_title) {
     dataset_url <-
@@ -87,6 +95,12 @@ get_dataset_url <- function(datasets, dataset_title) {
 #'
 #' @return A dataframe (tibble) in tidy format with the values of each information requested for the datetime range and the geographic nearest point.
 #' @export
+#'
+#' @import tibble
+#' @import dplyr
+#' @importFrom lubridate ymd_hms
+#' @importFrom glue glue
+#' @importFrom stringr str_replace fixed
 #'
 #' @examples
 get_dataset <- function(datasets, api_key, dataset_titles, datetime_info, latitude, longitude) {
