@@ -6,6 +6,8 @@
 #' @return TRUE if the endpoint starts with `http://` or `https://`, FALSE otherwise
 #' @export
 #'
+#' @importFrom purrr map2_lgl
+#'
 #' @examples
 is_endpoint <- function(endpoint) {
     protocols_list <- c("http://", "https://")
