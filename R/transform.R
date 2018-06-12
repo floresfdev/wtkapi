@@ -4,6 +4,7 @@
 #' @param response Object with the API response.
 #'
 #' @return The content of the JSON API response.
+#'
 #' @export
 #'
 #' @importFrom httr headers content
@@ -23,19 +24,23 @@ parse_response_content <- function(response) {
 
 
 #' Project latitude and longitude to Lambert Conformal Conic coordinates
-#' @description Given the latitude and longitude of a point, compute the projection to Lambert Conformal Conic coordinates.
+#' @description Given the latitude and longitude of a point, compute the
+#'   projection to Lambert Conformal Conic coordinates.
 #'
 #' @param latitude The latitude of the point (WGS84).
 #' @param longitude The longitude of the point (WGS84).
 #'
-#' @return A named list with elements `coord_y` for the latitude and `coord_x` for the longitude, both as LCC coordinates.
+#' @return A named list with elements \code{coord_y} for the latitude and
+#'   \code{coord_x} for the longitude, both as LCC coordinates.
+#'
 #' @export
 #'
 #' @import rgdal
 #' @import sp
 #'
 #' @examples
-latlong_to_LCC <- function(latitude, longitude) {
+latlong_to_LCC <- function(latitude,
+                           longitude) {
     lcc_coordinates <- list()
 
     proj_latlong_string <- "+proj=longlat +datum=WGS84"
@@ -57,16 +62,20 @@ latlong_to_LCC <- function(latitude, longitude) {
 
 
 #' Convert latitude and longitude to indices in the WIND Toolkit dataset
-#' description Given the latitude and longitude of a point, compute the corresponding indices on the WIND Toolkit dataset for the nearest point.
+#' @description Given the latitude and longitude of a point, compute the
+#'   corresponding indices on the WIND Toolkit dataset for the nearest point.
 #'
 #' @param latitude The latitude of the point (WGS84).
 #' @param longitude The longitude of the point (WGS84).
 #'
-#' @return A named list with elements `y` and `x` for the corresponding indices on the WIND Toolkit dataset.
+#' @return A named list with elements \code{y} and \code{x} for the
+#'   corresponding indices on the WIND Toolkit dataset.
+#'
 #' @export
 #'
 #' @examples
-latlong_to_index <- function(latitude, longitude) {
+latlong_to_index <- function(latitude,
+                             longitude) {
     coord_index <- list()
 
     origin_latitude <- 19.62406     # According to DB, point (y,x) = (0,0)
@@ -86,11 +95,14 @@ latlong_to_index <- function(latitude, longitude) {
 
 
 #' Convert a datetime to an index in the WIND Toolkit dataset
-#' @description Given a datetime, compute the corresponding index on the WIND Toolkit dataset.
+#' @description Given a datetime, compute the corresponding index on the WIND
+#'   Toolkit dataset.
 #'
-#' @param datetime The datetime point as POSIX or string, in format YYYY-MM-DD HH:MM:SS.
+#' @param datetime The datetime point as POSIX or string, in format
+#'   \code{YYYY-MM-DD HH:MM:SS}.
 #'
 #' @return The index on the WIND Toolkit dataset for the datetime.
+#'
 #' @export
 #'
 #' @importFrom lubridate ymd_hms
@@ -112,16 +124,22 @@ datetime_to_index <- function(datetime) {
 
 
 #' Convert a datetime range to the indices range in the WIND Toolkit dataset
-#' @description Given two datetime (from and to), compute the corresponding indices range on the WIND Toolkit dataset.
+#' @description Given two datetime (from and to), compute the corresponding
+#'   indices range on the WIND Toolkit dataset.
 #'
-#' @param datetime_from The initial datetime point of the range as POSIX or string, in format YYYY-MM-DD HH:MM:SS.
-#' @param datetime_to The final datetime point of the range as POSIX or string, in format YYYY-MM-DD HH:MM:SS.
+#' @param datetime_from The initial datetime point of the range as POSIX or
+#'   string, in format \code{YYYY-MM-DD HH:MM:SS}.
+#' @param datetime_to The final datetime point of the range as POSIX or string,
+#'   in format \code{YYYY-MM-DD HH:MM:SS}.
 #'
-#' @return A named list with elements `t_from` and `t_to` for the corresponding indices range on the WIND Toolkit dataset.
+#' @return A named list with elements \code{t_from} and \code{t_to} for the
+#'   corresponding indices range on the WIND Toolkit dataset.
+#'
 #' @export
 #'
 #' @examples
-datetime_to_indices <- function(datetime_from, datetime_to) {
+datetime_to_indices <- function(datetime_from,
+                                datetime_to) {
     datetime_indices <- list()
 
     t_from <- datetime_to_index(datetime_from)
@@ -135,18 +153,26 @@ datetime_to_indices <- function(datetime_from, datetime_to) {
 
 
 #' Compute a named list with datetime ranges and step.
-#' @description Helper function to get formatted data for use in other functions.
+#' @description Helper function to get formatted data for use in other
+#'   functions.
 #'
-#' @param datetime_from The initial datetime point of the range as string, in format YYYY-MM-DD HH:MM:SS.
-#' @param datetime_to The final datetime point of the range as string, in format YYYY-MM-DD HH:MM:SS.
-#' @param datetime_step The size of the step within the range, with 1 being each hour, 2 every other hour, etc.
+#' @param datetime_from The initial datetime point of the range as string, in
+#'   format \code{YYYY-MM-DD HH:MM:SS}.
+#' @param datetime_to The final datetime point of the range as string, in format
+#'    \code{YYYY-MM-DD HH:MM:SS}.
+#' @param datetime_step The size of the step within the range, with 1 being each
+#'   hour, 2 every other hour, etc.
 #'
-#' @return A named list with elements `datetime_from`, `datetime_to`, `datetime_step`.
+#' @return A named list with elements \code{datetime_from}, \code{datetime_to}
+#'   and \code{datetime_step}.
+#'
 #' @export
 #'
 #' @examples
-compute_datetime_info <- function(datetime_from, datetime_to, datetime_step) {
-    list(datetime_from = datetime_from,
-         datetime_to = datetime_to,
-         datetime_step = datetime_step)
+compute_datetime_info <- function(datetime_from,
+                                  datetime_to,
+                                  datetime_step) {
+    return(list(datetime_from = datetime_from,
+                datetime_to = datetime_to,
+                datetime_step = datetime_step))
 }

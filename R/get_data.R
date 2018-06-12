@@ -1,11 +1,14 @@
 #' Get the list of datasets available in the WIND Toolkit.
-#' @description Get a dataframe with the datasets information from the WIND Toolkit.
+#' @description Get a dataframe with the datasets information from the WIND
+#'   Toolkit.
 #'
 #' @param endpoint Endpoint of the dataset.
 #' @param host Host with files of the dataset.
 #' @param api_key API key to access the dataset.
 #'
-#' @return A dataframe (tibble) containing the datasets available via the WIND Toolkit API.
+#' @return A dataframe (tibble) containing the datasets available via the WIND
+#'   Toolkit API.
+#'
 #' @export
 #'
 #' @import tibble
@@ -14,7 +17,9 @@
 #' @importFrom httr GET stop_for_status
 #'
 #' @examples
-get_datasets <- function(endpoint, host, api_key) {
+get_datasets <- function(endpoint,
+                         host,
+                         api_key) {
     datasets <- tibble()
 
     # Check param values
@@ -64,17 +69,23 @@ get_datasets <- function(endpoint, host, api_key) {
 
 #' Get the URL of a specific dataset available via the WIND Toolkit API.
 #'
-#' @param datasets The dataframe with datasets retrieved from `get_datasets()`
-#' @param dataset_title A string with the specific title of the dataset, e.g. `"windspeed_80m"`, `"temperature_80m"`, `"relativehumidity_2m"`.
+#' @param datasets The dataframe with datasets retrieved from
+#'   \code{get_datasets()}
+#' @param dataset_title A string with the specific title of the dataset, e.g.
+#'   \code{"windspeed_80m"}, \code{"temperature_80m"},
+#'   \code{"relativehumidity_2m"}.
 #'
-#' @return A string with the URL of the dataset. Empty if the `dataset_title` is not valid.
+#' @return A string with the URL of the dataset. Empty if the
+#'   \code{dataset_title} is not valid.
+#'
 #' @export
 #'
 #' @import tibble
 #' @import dplyr
 #'
 #' @examples
-get_dataset_url <- function(datasets, dataset_title) {
+get_dataset_url <- function(datasets,
+                            dataset_title) {
     dataset_url <-
         datasets %>%
         filter(title == dataset_title) %>%
@@ -84,16 +95,26 @@ get_dataset_url <- function(datasets, dataset_title) {
 }
 
 
-#' Get a portion of the WIND Toolkit dataset as a tidy dataframe for a datetime range and a geographic nearest point.
+#' Get a portion of the WIND Toolkit dataset as a tidy dataframe for a datetime
+#'   range and a geographic nearest point.
 #'
-#' @param datasets The dataframe with datasets retrieved from `get_datasets()`
+#' @param datasets The dataframe with datasets retrieved from
+#'   \code{get_datasets()}
 #' @param api_key API key to access the dataset.
-#' @param dataset_titles A string vector containing the dataset titles to retrieve, e.g. `c("windspeed_80m", "temperature_80m", "relativehumidity_2m")`. Avoid the special datasets `datetime` and `coordinates`, which are added by default in the process.
-#' @param datetime_info A named list (as formatted by `compute_datetime_info()`) with the datetime range and step.
+#' @param dataset_titles A string vector containing the dataset titles to
+#'   retrieve, e.g.
+#'   \code{c("windspeed_80m", "temperature_80m", "relativehumidity_2m")}. Avoid
+#'   the special datasets \code{"datetime"} and \code{"coordinates"}, which are
+#'   added by default in the process.
+#' @param datetime_info A named list (as formatted by
+#'   \code{compute_datetime_info()}) with the datetime range and step.
 #' @param latitude The latitude of the point (WGS84).
 #' @param longitude The longitude of the point (WGS84).
 #'
-#' @return A dataframe (tibble) in tidy format with the values of each information requested for the datetime range and the geographic nearest point.
+#' @return A dataframe (tibble) in tidy format with the values of each
+#'   information requested for the datetime range and the geographic nearest
+#'   point.
+#'
 #' @export
 #'
 #' @import tibble
@@ -103,7 +124,12 @@ get_dataset_url <- function(datasets, dataset_title) {
 #' @importFrom stringr str_replace fixed
 #'
 #' @examples
-get_dataset <- function(datasets, api_key, dataset_titles, datetime_info, latitude, longitude) {
+get_dataset <- function(datasets,
+                        api_key,
+                        dataset_titles,
+                        datetime_info,
+                        latitude,
+                        longitude) {
     # Parse params
     datetime_from <- ymd_hms(datetime_info$datetime_from, truncated = 3)
     datetime_to <- ymd_hms(datetime_info$datetime_to, truncated = 3)
@@ -131,7 +157,8 @@ get_dataset <- function(datasets, api_key, dataset_titles, datetime_info, latitu
     datetime_indices <- datetime_to_indices(datetime_from, datetime_to)
 
     # Selection strings with format start:stop:skip (# of steps)
-    string_datetime <- glue("{datetime_indices$t_from}:{datetime_indices$t_to}:{datetime_step}")
+    string_datetime <-
+        glue("{datetime_indices$t_from}:{datetime_indices$t_to}:{datetime_step}")
     # TODO: Allow range of coordinates (line and box)
     string_coord_y <- glue("{coord_index$y}:{coord_index$y + 1}")
     string_coord_x <- glue("{coord_index$x}:{coord_index$x + 1}")
@@ -143,7 +170,8 @@ get_dataset <- function(datasets, api_key, dataset_titles, datetime_info, latitu
         } else if (dataset_title == "datetime") {
             select_string <- "/value?select=[{string_datetime}]"
         } else {
-            select_string <- "/value?select=[{string_datetime},{string_coord_y},{string_coord_x}]"
+            select_string <-
+                "/value?select=[{string_datetime},{string_coord_y},{string_coord_x}]"
         }
 
         dataset_url <- get_dataset_url(datasets, dataset_title)
