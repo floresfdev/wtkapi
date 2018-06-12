@@ -122,6 +122,7 @@ get_dataset_url <- function(datasets,
 #' @importFrom lubridate ymd_hms
 #' @importFrom glue glue
 #' @importFrom stringr str_replace fixed
+#' @importFrom purrr is_empty
 #'
 #' @examples
 get_dataset <- function(datasets,
