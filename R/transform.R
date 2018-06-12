@@ -6,6 +6,9 @@
 #' @return The content of the JSON API response.
 #' @export
 #'
+#' @importFrom httr headers content
+#' @importFrom jsonlite fromJSON
+#'
 #' @examples
 parse_response_content <- function(response) {
     response_content <- list()
@@ -27,6 +30,9 @@ parse_response_content <- function(response) {
 #'
 #' @return A named list with elements `coord_y` for the latitude and `coord_x` for the longitude, both as LCC coordinates.
 #' @export
+#'
+#' @import rgdal
+#' @import sp
 #'
 #' @examples
 latlong_to_LCC <- function(latitude, longitude) {
@@ -86,6 +92,8 @@ latlong_to_index <- function(latitude, longitude) {
 #'
 #' @return The index on the WIND Toolkit dataset for the datetime.
 #' @export
+#'
+#' @importFrom lubridate ymd_hms
 #'
 #' @examples
 datetime_to_index <- function(datetime) {
