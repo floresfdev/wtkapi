@@ -1,5 +1,5 @@
 Package: wtkapi
-Version: 0.0.0.9000
+Version: 0.1.0
 Title: Get data from the WIND Toolkit API
 Description: Provides a set of functions to get the data from the WIND (Wind Integration National Dataset) Toolkit in tidy format to leverage technical analysis of atmospheric data.
 Authors@R: person("Fernando", "Flores", , "ds.fernando.flores@gmail.com", c("aut", "cre"))
