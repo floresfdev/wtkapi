@@ -1,13 +1,24 @@
+---
+output: github_document
+---
 
-wtkapi
-======
+```{r, echo = FALSE}
+knitr::opts_chunk$set(warning = FALSE,
+                      message = FALSE,
+                      fig.width = 12,
+                      fig.height = 6,
+                      fig.path = "README_figures/README-")
+```
+
+
+# wtkapi
 
 The goal of wtkapi is to get data from the [Gridded Atmospheric Wind Integration National Dataset Toolkit](https://www.nrel.gov/grid/wind-toolkit.html) in tidy format to leverage technical analysis of atmospheric data.
 
 It is required to sign up for an API key on the [NREL Developer Network](https://developer.nrel.gov/). Please also consider the API call rate limits.
 
-Installation
-------------
+
+## Installation
 
 You can install the development version of wtkapi from GitHub with:
 
@@ -22,12 +33,12 @@ At the moment this package is heavy on dependencies, so in order to have more co
 devtools::install_github("floresfdev/wtkapi", dependencies = FALSE, upgrade_dependencies = FALSE)
 ```
 
-Example
--------
+
+## Example
 
 This is a basic example which shows you how to get data:
 
-``` r
+```{r}
 library(dplyr)
 library(lubridate)
 library(ggplot2)
@@ -54,30 +65,7 @@ longitude <- -74.0059
 
 # Info to select the datasets as columnar data
 datasets$title
-```
 
-    ##  [1] "DIF"                          "DNI"                         
-    ##  [3] "GHI"                          "coordinates"                 
-    ##  [5] "datetime"                     "inversemoninobukhovlength_2m"
-    ##  [7] "precipitationrate_0m"         "pressure_0m"                 
-    ##  [9] "pressure_100m"                "pressure_200m"               
-    ## [11] "relativehumidity_2m"          "status"                      
-    ## [13] "temperature_100m"             "temperature_10m"             
-    ## [15] "temperature_120m"             "temperature_140m"            
-    ## [17] "temperature_160m"             "temperature_200m"            
-    ## [19] "temperature_2m"               "temperature_40m"             
-    ## [21] "temperature_60m"              "temperature_80m"             
-    ## [23] "winddirection_100m"           "winddirection_10m"           
-    ## [25] "winddirection_120m"           "winddirection_140m"          
-    ## [27] "winddirection_160m"           "winddirection_200m"          
-    ## [29] "winddirection_40m"            "winddirection_60m"           
-    ## [31] "winddirection_80m"            "windspeed_100m"              
-    ## [33] "windspeed_10m"                "windspeed_120m"              
-    ## [35] "windspeed_140m"               "windspeed_160m"              
-    ## [37] "windspeed_200m"               "windspeed_40m"               
-    ## [39] "windspeed_60m"                "windspeed_80m"
-
-``` r
 dataset_titles <- c("temperature_10m", "windspeed_10m", "winddirection_10m",
                         "temperature_40m", "windspeed_40m", "winddirection_40m",
                         "temperature_80m", "windspeed_80m", "winddirection_80m")
@@ -93,46 +81,11 @@ wind_temp_2007 <-
 
 # Number of rows: 8760 = 365 days * 24 hours
 nrow(wind_temp_2007)
-```
 
-    ## [1] 8760
-
-``` r
 # Check first and last records
 head(wind_temp_2007)
-```
-
-    ## # A tibble: 6 x 12
-    ##   datetime            latitude longitude temperature_10m windspeed_10m
-    ##   <dttm>                 <dbl>     <dbl>           <dbl>         <dbl>
-    ## 1 2007-01-01 00:00:00     40.7     -74.0            278.          1.42
-    ## 2 2007-01-01 01:00:00     40.7     -74.0            278.          1.19
-    ## 3 2007-01-01 02:00:00     40.7     -74.0            278.          1.22
-    ## 4 2007-01-01 03:00:00     40.7     -74.0            279.          1.04
-    ## 5 2007-01-01 04:00:00     40.7     -74.0            279.          1.05
-    ## 6 2007-01-01 05:00:00     40.7     -74.0            280.          1.91
-    ## # ... with 7 more variables: winddirection_10m <dbl>,
-    ## #   temperature_40m <dbl>, windspeed_40m <dbl>, winddirection_40m <dbl>,
-    ## #   temperature_80m <dbl>, windspeed_80m <dbl>, winddirection_80m <dbl>
-
-``` r
 tail(wind_temp_2007)
-```
 
-    ## # A tibble: 6 x 12
-    ##   datetime            latitude longitude temperature_10m windspeed_10m
-    ##   <dttm>                 <dbl>     <dbl>           <dbl>         <dbl>
-    ## 1 2007-12-31 18:00:00     40.7     -74.0            278.          6.65
-    ## 2 2007-12-31 19:00:00     40.7     -74.0            278.          6.67
-    ## 3 2007-12-31 20:00:00     40.7     -74.0            278.          6.62
-    ## 4 2007-12-31 21:00:00     40.7     -74.0            278.          5.60
-    ## 5 2007-12-31 22:00:00     40.7     -74.0            277.          4.10
-    ## 6 2007-12-31 23:00:00     40.7     -74.0            277.          4.00
-    ## # ... with 7 more variables: winddirection_10m <dbl>,
-    ## #   temperature_40m <dbl>, windspeed_40m <dbl>, winddirection_40m <dbl>,
-    ## #   temperature_80m <dbl>, windspeed_80m <dbl>, winddirection_80m <dbl>
-
-``` r
 # Plots
 
 plot_subtitle <- glue("2007, New York (lat {latitude}, lon {longitude})")
@@ -160,11 +113,8 @@ wind_temp_2007 %>%
          subtitle = plot_subtitle,
          caption = "Blue = daily min  -  Red = daily max") +
     theme_classic()
-```
 
-![](README_figures/README-unnamed-chunk-2-1.png)
 
-``` r
 ## Daily average wind speed at 80mts
 wind_temp_2007 %>%
     ## Get the average of windspeed for each day
@@ -180,11 +130,8 @@ wind_temp_2007 %>%
          title = "Daily average wind speed at 80mts",
          subtitle = plot_subtitle) +
     theme_classic()
-```
 
-![](README_figures/README-unnamed-chunk-2-2.png)
 
-``` r
 ## Histogram of wind speed at 80 mts
 ggplot(wind_temp_2007) +
     geom_histogram(aes(x = windspeed_80m),
@@ -195,6 +142,6 @@ ggplot(wind_temp_2007) +
          title = "Histogram of wind speed at 80 mts",
          subtitle = plot_subtitle) +
     theme_classic()
+
 ```
 
-![](README_figures/README-unnamed-chunk-2-3.png)
