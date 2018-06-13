@@ -1,6 +1,9 @@
 
+<!-- README.md is generated from README.Rmd. Please edit that file -->
 wtkapi
 ======
+
+[![lifecycle](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 
 The goal of wtkapi is to get data from the [Gridded Atmospheric Wind Integration National Dataset Toolkit](https://www.nrel.gov/grid/wind-toolkit.html) in tidy format to leverage technical analysis of atmospheric data.
 
@@ -16,7 +19,7 @@ You can install the development version of wtkapi from GitHub with:
 devtools::install_github("floresfdev/wtkapi")
 ```
 
-At the moment this package is heavy on dependencies, so in order to have more control over your environment, avoid install/upgrade dependencies with:
+At the moment this package is heavy on dependencies (see `Imports` on [DESCRIPTION](DESCRIPTION.md)), so in order to have more control over your environment, avoid install/upgrade dependencies with:
 
 ``` r
 devtools::install_github("floresfdev/wtkapi", dependencies = FALSE, upgrade_dependencies = FALSE)
@@ -137,7 +140,7 @@ tail(wind_temp_2007)
 
 plot_subtitle <- glue("2007, New York (lat {latitude}, lon {longitude})")
 
-## Daily min/max temperature at 10mts
+## Daily min/max temperature at 10m
 wind_temp_2007 %>%
     ## Convert temperature from Kelvin to Celsius
     mutate(temperature_10m = temperature_10m - 273.15) %>%
@@ -156,7 +159,7 @@ wind_temp_2007 %>%
               color = "red") +
     labs(x = "Date",
          y = "Temperature (°C)",
-         title = "Daily min/max temperature at 10mts",
+         title = "Daily min/max temperature at 10m",
          subtitle = plot_subtitle,
          caption = "Blue = daily min  -  Red = daily max") +
     theme_classic()
@@ -165,7 +168,7 @@ wind_temp_2007 %>%
 ![](README_figures/README-unnamed-chunk-2-1.png)
 
 ``` r
-## Daily average wind speed at 80mts
+## Daily average wind speed at 80m
 wind_temp_2007 %>%
     ## Get the average of windspeed for each day
     mutate(date = as_date(datetime)) %>%
@@ -177,7 +180,7 @@ wind_temp_2007 %>%
                   y = avg_windspeed_80m)) +
     labs(x = "Date",
          y = "Wind speed (m/s)",
-         title = "Daily average wind speed at 80mts",
+         title = "Daily average wind speed at 80m",
          subtitle = plot_subtitle) +
     theme_classic()
 ```
@@ -185,16 +188,28 @@ wind_temp_2007 %>%
 ![](README_figures/README-unnamed-chunk-2-2.png)
 
 ``` r
-## Histogram of wind speed at 80 mts
+## Histogram of hourly wind speed at 80m
 ggplot(wind_temp_2007) +
     geom_histogram(aes(x = windspeed_80m),
                    fill = "white",
                    color = "black") +
     labs(x = "Wind speed (m/s)",
          y = "Count",
-         title = "Histogram of wind speed at 80 mts",
+         title = "Histogram of hourly wind speed at 80m",
          subtitle = plot_subtitle) +
     theme_classic()
 ```
 
 ![](README_figures/README-unnamed-chunk-2-3.png)
+
+Code of conduct
+---------------
+
+Please note that this project is released with a [Contributor Code of Conduct](CODE_OF_CONDUCT.md). By participating in this project you agree to abide by its terms.
+
+License
+-------
+
+Copyright (c) 2018, Fernando Flores
+
+License TBD.
