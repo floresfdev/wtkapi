@@ -14,7 +14,7 @@
 parse_response_content <- function(response) {
     response_content <- list()
 
-    if (headers(response)$`content-type` == "application/json") {
+    if (startsWith(headers(response)$`content-type`, "application/json")) {
         response_content <-
             fromJSON(content(response, "text", encoding = "ISO-8859-1"))
     }
